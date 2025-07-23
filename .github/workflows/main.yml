@@ -1,20 +1,8 @@
-name: blackmine-zero-btc-miner
-
-on:
-  workflow_dispatch:  # manual trigger
-
-jobs:
-  mine:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y git build-essential
-
+          sudo apt-get install -y git build-essential automake autoconf libtool pkg-config libssl-dev
+          
       - name: Clone cpuminer-opt
         run: git clone https://github.com/JayDDee/cpuminer-opt.git
 
@@ -22,8 +10,3 @@ jobs:
         run: |
           cd cpuminer-opt
           ./build.sh
-
-      - name: Run miner
-        run: |
-          cd cpuminer-opt
-          ./cpuminer -a sha256d -o stratum+tcp://pool.binance.com:3333 -u 1NLbvnF9FdVdBS4wRrA2WJ7AF7zzXfgJ1f.worker001 -p x
